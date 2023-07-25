@@ -2,16 +2,16 @@ import AWS from "aws-sdk";
 import { ImageProps } from "./types";
 
 AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
+  accessKeyId: process.env.NEXT_AWS_ACCESS_KEY,
+  secretAccessKey: process.env.NEXT_AWS_SECRET_ACCESS_KEY,
+  region: process.env.NEXT_AWS_REGION,
 });
 const s3 = new AWS.S3();
 
 export async function getAllImages(): Promise<ImageProps[]> {
   const results = [];
   try {
-    let awsRes = await s3.listObjectsV2({ Bucket: process.env.AWS_BUCKET_NAME }).promise();
+    let awsRes = await s3.listObjectsV2({ Bucket: process.env.NEXT_AWS_BUCKET_NAME }).promise();
     const objects = awsRes.Contents.filter((img) => !img.Key.includes("blur"));
 
     objects.sort((a, b) => {
@@ -21,8 +21,8 @@ export async function getAllImages(): Promise<ImageProps[]> {
     });
 
     for (const object of objects) {
-      const url = `https://s3.${process.env.AWS_REGION}.amazonaws.com/${process.env.AWS_BUCKET_NAME}/${object.Key}`;
-      const blurDataUrl = `https://s3.${process.env.AWS_REGION}.amazonaws.com/${process.env.AWS_BUCKET_NAME}/blur_${object.Key}`;
+      const url = `https://s3.${process.env.NEXT_AWS_REGION}.amazonaws.com/${process.env.NEXT_AWS_BUCKET_NAME}/${object.Key}`;
+      const blurDataUrl = `https://s3.${process.env.NEXT_AWS_REGION}.amazonaws.com/${process.env.NEXT_AWS_BUCKET_NAME}/blur_${object.Key}`;
       results.push(await getImageInfo(url, blurDataUrl, object.Key));
     }
   } catch (error) {
@@ -34,7 +34,7 @@ export async function getAllImages(): Promise<ImageProps[]> {
 
 export async function getImageInfo(url: string, blurDataUrl: string, key: string) {
   const getObjectParams = {
-    Bucket: process.env.AWS_BUCKET_NAME,
+    Bucket: process.env.NEXT_AWS_BUCKET_NAME,
     Key: key,
   };
 

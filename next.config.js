@@ -9,6 +9,6 @@ module.exports = {
     ],
   },
   publicRuntimeConfig: {
-    AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME,
+    NEXT_AWS_BUCKET_NAME: process.env.NEXT_AWS_BUCKET_NAME,
   },
 };

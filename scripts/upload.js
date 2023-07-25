@@ -6,13 +6,13 @@ const sharp = require("sharp");
 const stream = require("stream");
 
 const s3Client = new S3Client({
-  region: process.env.AWS_REGION,
+  region: process.env.NEXT_AWS_REGION,
   credentials: {
-    accessKeyId: process.env.AWS_WRITE_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_WRITE_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.NEXT_AWS_WRITE_ACCESS_KEY,
+    secretAccessKey: process.env.NEXT_AWS_WRITE_SECRET_ACCESS_KEY,
   },
 });
-const bucketName = process.env.AWS_BUCKET_NAME;
+const bucketName = process.env.NEXT_AWS_BUCKET_NAME;
 const doHardReset = true;
 const doUpdate = false;
 

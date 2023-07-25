@@ -14,9 +14,9 @@ import { useImages } from "../components/useCarousel";
 import { getAllImages } from "../utils/getImages";
 
 AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION, // Replace with your actual region
+  accessKeyId: process.env.NEXT_AWS_ACCESS_KEY,
+  secretAccessKey: process.env.NEXT_AWS_SECRET_ACCESS_KEY,
+  region: process.env.NEXT_AWS_REGION, // Replace with your actual region
 });
 const s3 = new AWS.S3();
 
