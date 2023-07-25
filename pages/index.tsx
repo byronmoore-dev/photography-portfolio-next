@@ -66,10 +66,8 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
               <span className="absolute bottom-0 left-0 right-0 h-[400px] bg-gradient-to-b from-black/0 via-black to-black"></span>
             </div>
             <Logo />
-            <h1 className="mb-4 mt-8 text-base font-bold uppercase tracking-widest">2022 Event Photos</h1>
-            <p className="max-w-[40ch] text-white/75 sm:max-w-[32ch]">
-              Our incredible Next.js community got together in San Francisco for our first ever in-person conference!
-            </p>
+            <h1 className="mb-4 mt-8 text-base font-bold uppercase tracking-widest">LFG</h1>
+            <p className="max-w-[40ch] text-white/75 sm:max-w-[32ch]">Byron M Ps</p>
           </div>
           {photos.map(({ id, key, url, blurDataUrl }) => (
             <Link
