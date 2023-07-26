@@ -13,12 +13,14 @@ const s3Client = new S3Client({
   },
 });
 const bucketName = process.env.NEXT_AWS_BUCKET_NAME;
-const doHardReset = true;
+const doHardReset = false;
 const doUpdate = false;
 
-async function deleteAllObjectsFromBucket() {
+// Delete all image assets from /images
+async function deleteAllImagesFromFolder() {
   try {
-    const listObjectsCommand = new ListObjectsV2Command({ Bucket: bucketName });
+    const prefix = "images/";
+    const listObjectsCommand = new ListObjectsV2Command({ Bucket: bucketName, Prefix: prefix });
     const { Contents } = await s3Client.send(listObjectsCommand);
     if (!Contents) {
       console.log("Nothing to delete...");
@@ -41,7 +43,7 @@ async function deleteAllObjectsFromBucket() {
 // Function to check if a file exists in S3 bucket
 async function isFileExist(key, group) {
   try {
-    const command = new HeadObjectCommand({ Bucket: bucketName, Key: key, region: "us-east-2" });
+    const command = new HeadObjectCommand({ Bucket: bucketName, Key: "images/" + key, region: "us-east-2" });
     const res = await s3Client.send(command);
 
     // metadata needs updated
@@ -55,7 +57,8 @@ async function isFileExist(key, group) {
   }
 }
 
-async function resizeAndBlurImage(imagePath) {
+// Blur the image
+async function blurImage(imagePath) {
   const blurSigma = 100; // Adjust this value as per your requirement
   const outputOptions = { quality: 50 }; // Adjust the quality (0-100) as needed
 
@@ -64,7 +67,8 @@ async function resizeAndBlurImage(imagePath) {
   return new Uint8Array(blurredImage);
 }
 
-async function uploadFile(key, filePathOrBuffer, metadata) {
+// Upload an image
+async function uploadImage(key, filePathOrBuffer, metadata) {
   let fileContent;
 
   if (filePathOrBuffer instanceof Uint8Array) {
@@ -90,9 +94,26 @@ async function uploadFile(key, filePathOrBuffer, metadata) {
   await s3Client.send(command);
 }
 
+// Upload the json
+async function uploadJSON(array) {
+  const jsonContent = JSON.stringify(array); // Convert array to JSON string
+
+  const command = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: "json/images.json",
+    Body: jsonContent,
+    ContentType: "application/json", // Specify content type as JSON
+  });
+
+  await s3Client.send(command);
+  console.log("JSON uploaded successfully.");
+}
+
+// Upload all images
 async function uploadImagesFromFolder(folderPath) {
   try {
     const files = readdirSync(folderPath);
+    let json = [];
 
     for (const file of files) {
       const filePath = `${folderPath}/${file}`;
@@ -102,34 +123,50 @@ async function uploadImagesFromFolder(folderPath) {
 
       const metadata = {
         group: group,
+        ar: dimensions.width > dimensions.height ? "3/2" : "2/3",
         width: dimensions.width.toString(),
         height: dimensions.height.toString(),
       };
 
+      json.push({
+        key: file,
+        url: `https://s3.us-east-2.amazonaws.com/byronmoore.dev-photo-portfolio/images/${file}`,
+        blurredURL: `https://s3.us-east-2.amazonaws.com/byronmoore.dev-photo-portfolio/images/blur_${file}`,
+        ...metadata,
+      });
+
       const fileExists = await isFileExist(key, group);
+
       if (!fileExists) {
         // Upload normal image
-        console.log(`Uploading ${file}...`);
-        await uploadFile(key, filePath, metadata);
+        await uploadImage("images/" + key, filePath, metadata);
 
         // Upload blurred image
-        const blurredImageBuffer = await resizeAndBlurImage(filePath);
+        const blurredImageBuffer = await blurImage(filePath);
         const blurredKey = `blur_${key}`;
-        await uploadFile(blurredKey, blurredImageBuffer, metadata);
+        await uploadImage("images/" + blurredKey, blurredImageBuffer, metadata);
+
         console.log(`${file} and ${blurredKey} uploaded successfully.`);
       } else {
         console.log(`${file} already exists in the bucket.`);
       }
     }
+
+    // Upload JSON
+    await uploadJSON(json);
   } catch (error) {
     console.error("Error occurred while uploading images:", error);
   }
 }
 
-// Replace the folder path with the actual path of the folder containing images
-const folderPath = "C:/Users/byron/Documents/dev/nextjs-image-gallery/Images";
+const main = () => {
+  const folderPath = "C:/Users/byron/Documents/dev/photography-portfolio-next/Images";
 
-if (doHardReset) {
-  deleteAllObjectsFromBucket();
-}
-uploadImagesFromFolder(folderPath);
+  if (doHardReset) {
+    deleteAllImagesFromFolder();
+  }
+
+  uploadImagesFromFolder(folderPath);
+};
+
+main();

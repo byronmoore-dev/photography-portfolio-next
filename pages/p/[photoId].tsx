@@ -30,6 +30,7 @@ export default Home;
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const results: ImageProps[] = await getAllImages();
+  
   let reducedResults: ImageProps[] = [];
   let i = 0;
   for (let result of results) {
@@ -37,11 +38,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
       id: i,
       key: result.key,
       url: result.url,
-      blurDataUrl: result.blurDataUrl,
+      blurredUrl: result.url,
+      group: result.group,
+      ar: result.ar,
       height: result.height,
       width: result.width,
-      group: result.group,
-      format: "",
     });
     i++;
   }

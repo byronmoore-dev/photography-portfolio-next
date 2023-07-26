@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import useKeypress from "react-use-keypress";
 import type { ImageProps } from "../utils/types";
 import SharedModal from "./SharedModal";
-import { useImages } from "./useCarousel";
+import { useImages } from "./usePhotos";
 
 export default function Modal({ onClose }: { onClose?: () => void }) {
   const { photos, currentPhotos, setCurrentPhotos } = useImages();

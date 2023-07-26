@@ -5,9 +5,10 @@ export const imagesContext = createContext<ImageContextValue | undefined>(undefi
 
 export function useImageStorage(): ImageContextValue {
   const [photos, setPhotos] = useState<ImageProps[] | undefined>(undefined);
+  const [filteredPhotos, setFilteredPhotos] = useState<ImageProps[] | undefined>(undefined);
   const [currentPhotos, setCurrentPhotos] = useState<ImageProps | undefined>(undefined);
 
-  return { photos, setPhotos, currentPhotos, setCurrentPhotos };
+  return { photos, setPhotos, filteredPhotos, setFilteredPhotos, currentPhotos, setCurrentPhotos };
 }
 
 export const ImageProvider = ({ children }: { children: React.ReactNode }) => {

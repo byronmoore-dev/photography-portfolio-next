@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 export interface ImageProps {
-  id: number;
+  id?: number;
   key: string;
   url: string;
+  blurredUrl: string;
+  group: string;
+  ar: string;
   height: string;
   width: string;
-  group: string;
-  format: string;
-  blurDataUrl?: string;
 }
 
 export interface SharedModalProps {
@@ -23,6 +23,8 @@ export interface SharedModalProps {
 export interface ImageContextValue {
   photos: ImageProps[] | undefined;
   setPhotos: React.Dispatch<React.SetStateAction<ImageProps[] | undefined>>;
+  filteredPhotos: ImageProps[] | undefined;
+  setFilteredPhotos: React.Dispatch<React.SetStateAction<ImageProps[] | undefined>>;
   currentPhotos: ImageProps | undefined;
   setCurrentPhotos: React.Dispatch<React.SetStateAction<ImageProps | undefined>>;
 }
