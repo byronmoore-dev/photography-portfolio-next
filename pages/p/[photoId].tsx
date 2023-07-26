@@ -31,7 +31,6 @@ export default Home;
 export const getStaticProps: GetStaticProps = async (context) => {
   const results: ImageProps[] = await getAllImages();
   let reducedResults: ImageProps[] = [];
-  console.log("results!!!: ", results);
   let i = 0;
   for (let result of results) {
     reducedResults.push({

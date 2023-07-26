@@ -49,7 +49,7 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
         <meta property="og:image" content="https://s3.us-east-2.amazonaws.com/byronmoore.dev-photography-portfolio/natural-3.jpg" />
         <meta name="twitter:image" content="https://s3.us-east-2.amazonaws.com/byronmoore.dev-photography-portfolio/natural-3.jpg" />
       </Head>
-      <main className="mx-auto max-w-[1960px] bg-neutral-100 p-4">
+      <main className="mx-auto max-w-[1960px] bg-neutral-900 p-4">
         {photoId && (
           <Modal
             onClose={() => {
