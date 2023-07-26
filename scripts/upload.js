@@ -13,7 +13,7 @@ const s3Client = new S3Client({
   },
 });
 const bucketName = process.env.NEXT_AWS_BUCKET_NAME;
-const doHardReset = false;
+const doHardReset = true;
 const doUpdate = false;
 
 // Delete all image assets from /images
@@ -59,12 +59,34 @@ async function isFileExist(key, group) {
 
 // Blur the image
 async function blurImage(imagePath) {
-  const blurSigma = 100; // Adjust this value as per your requirement
-  const outputOptions = { quality: 50 }; // Adjust the quality (0-100) as needed
+  const blurSigma = 110; // Adjust this value as per your requirement
+  const outputOptions = { quality: 20 }; // Adjust the quality (0-100) as needed
 
-  const blurredImage = await sharp(imagePath).blur(blurSigma).jpeg(outputOptions).toBuffer();
+  const blurredImage = await sharp(imagePath).resize(15, 15).blur(blurSigma).jpeg(outputOptions).toBuffer();
+  //new Uint8Array(
+  return blurredImage;
+}
 
-  return new Uint8Array(blurredImage);
+// Upload blurred base image
+async function uploadBlurImage(key, fileContent, metadata) {
+  const command = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: key,
+    Body: dataURL,
+    ContentEncoding: "base64", // Set the content encoding to "base64"
+    ContentType: "image/jpeg", // Set the content type to "image/jpeg" or the appropriate type
+    Metadata: {
+      group: metadata.group,
+      height: metadata.height.toString(),
+      width: metadata.width.toString(),
+    },
+  });
+  await s3Client.send(command);
+}
+
+// Function to convert a buffer to a base64 data URL
+function bufferToDataURL(buffer) {
+  return `data:image/jpeg;base64,${buffer.toString("base64")}`;
 }
 
 // Upload an image
@@ -120,6 +142,8 @@ async function uploadImagesFromFolder(folderPath) {
       const key = file;
       const dimensions = imageSize(filePath);
       const group = file.replace(/\.[^.]+$/, "").replace(/[^a-zA-Z]/g, "");
+      const blurredImageBuffer = await blurImage(filePath);
+      const blurredImageURI = bufferToDataURL(blurredImageBuffer);
 
       const metadata = {
         group: group,
@@ -131,7 +155,7 @@ async function uploadImagesFromFolder(folderPath) {
       json.push({
         key: file,
         url: `https://s3.us-east-2.amazonaws.com/byronmoore.dev-photo-portfolio/images/${file}`,
-        blurredURL: `https://s3.us-east-2.amazonaws.com/byronmoore.dev-photo-portfolio/images/blur_${file}`,
+        blurredUrl: blurredImageURI,
         ...metadata,
       });
 
@@ -141,12 +165,7 @@ async function uploadImagesFromFolder(folderPath) {
         // Upload normal image
         await uploadImage("images/" + key, filePath, metadata);
 
-        // Upload blurred image
-        const blurredImageBuffer = await blurImage(filePath);
-        const blurredKey = `blur_${key}`;
-        await uploadImage("images/" + blurredKey, blurredImageBuffer, metadata);
-
-        console.log(`${file} and ${blurredKey} uploaded successfully.`);
+        console.log(`${file} uploaded successfully.`);
       } else {
         console.log(`${file} already exists in the bucket.`);
       }

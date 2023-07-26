@@ -8,6 +8,9 @@ module.exports = {
       },
     ],
   },
+  env: {
+    BASE_URL: process.env.BASE_URL,
+  },
   publicRuntimeConfig: {
     NEXT_AWS_BUCKET_NAME: process.env.NEXT_AWS_BUCKET_NAME,
   },

@@ -10,14 +10,12 @@ const Home: NextPage = ({ currentPhoto }: { currentPhoto: ImageProps }) => {
   const { photoId } = router.query;
   let index = Number(photoId);
 
-  const currentPhotoUrl = currentPhoto?.url;
-
   return (
     <>
       <Head>
         <title>Byron Jaris Photography</title>
-        <meta property="og:image" content={currentPhotoUrl} />
-        <meta name="twitter:image" content={currentPhotoUrl} />
+        <meta property="og:image" content={currentPhoto?.url} />
+        <meta name="twitter:image" content={currentPhoto?.url} />
       </Head>
       <main className="mx-auto max-w-[1960px] p-4">
         <Carousel currentPhoto={currentPhoto} index={index} />
@@ -30,28 +28,14 @@ export default Home;
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const results: ImageProps[] = await getAllImages();
-  
-  let reducedResults: ImageProps[] = [];
-  let i = 0;
-  for (let result of results) {
-    reducedResults.push({
-      id: i,
-      key: result.key,
-      url: result.url,
-      blurredUrl: result.url,
-      group: result.group,
-      ar: result.ar,
-      height: result.height,
-      width: result.width,
-    });
-    i++;
-  }
-
-  const currentPhoto = reducedResults.find((img) => img.key === context.params.photoId);
+  const currentPhoto = results.find((img) => img.key === context.params.photoId);
 
   return {
     props: {
-      currentPhoto: currentPhoto,
+      currentPhoto: {
+        ...currentPhoto,
+        id: results.indexOf(currentPhoto),
+      },
     },
   };
 };

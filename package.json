@@ -11,6 +11,7 @@
     "@headlessui/react": "^1.7.4",
     "@heroicons/react": "^2.0.13",
     "aws-sdk": "^2.1421.0",
+    "axios": "^1.4.0",
     "dotenv": "^16.3.1",
     "eslint-config-next": "^13.0.1",
     "framer-motion": "^7.6.4",

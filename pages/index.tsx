@@ -60,7 +60,7 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
         <meta property="og:image" content="https://s3.us-east-2.amazonaws.com/byronmoore.dev-photography-portfolio/natural-3.jpg" />
         <meta name="twitter:image" content="https://s3.us-east-2.amazonaws.com/byronmoore.dev-photography-portfolio/natural-3.jpg" />
       </Head>
-      <main className="mx-auto max-w-[1960px] bg-neutral-900 p-4">
+      <main className="mx-auto max-w-[1960px] p-4">
         {photoId && (
           <Modal
             onClose={() => {
@@ -68,39 +68,51 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
             }}
           />
         )}
-
+        <div className="z-10 mb-4 flex cursor-pointer gap-2">
+          <button
+            onClick={() => setFilter("ALL")}
+            className={`rounded-lg bg-purple-900 px-5 py-3 text-sm font-semibold uppercase text-white duration-200  ${
+              filter === "ALL" ? "cursor-default bg-purple-900/40" : "cursor-pointer hover:scale-[104%] active:brightness-75"
+            }`}
+          >
+            All
+          </button>
+          <button
+            onClick={() => setFilter("URBAN")}
+            className={`rounded-lg bg-purple-900 px-5 py-3 text-sm font-semibold uppercase text-white duration-200  ${
+              filter === "URBAN" ? "cursor-default bg-purple-900/40" : "cursor-pointer hover:scale-[104%] active:brightness-75"
+            }`}
+          >
+            Urban
+          </button>
+          <button
+            onClick={() => setFilter("NATURAL")}
+            className={`rounded-lg bg-purple-900 px-5 py-3 text-sm font-semibold uppercase text-white duration-200  ${
+              filter === "NATURAL" ? "cursor-default bg-purple-900/40" : "cursor-pointer hover:scale-[104%] active:brightness-75"
+            }`}
+          >
+            Natural
+          </button>
+        </div>
         <motion.div className="columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4">
-          <div className="after:content relative mb-5 flex h-[629px] flex-col items-center justify-end gap-4 overflow-hidden rounded-lg bg-neutral-800 bg-white/10 px-6 pb-16 pt-64 text-center text-white shadow-highlight after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0">
-            <div className="absolute inset-0 flex items-center justify-center opacity-20">
-              <span className="flex max-h-full max-w-full items-center justify-center">
-                <Bridge />
-              </span>
-              <span className="absolute bottom-0 left-0 right-0 h-[400px] bg-gradient-to-b from-black/0 via-black to-black"></span>
+          <div className="after:content relative mb-5 flex h-[629px] flex-col items-center justify-end overflow-hidden rounded-lg bg-neutral-800 bg-white/10 px-6 pb-12 text-center text-white shadow-highlight after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0">
+            <div className="absolute inset-0 z-0 flex items-center justify-center opacity-70">
+              <Image
+                src={"https://s3.us-east-2.amazonaws.com/byronmoore.dev-photo-portfolio/misc/byron-photo.jpg"}
+                alt="Byron M, the man, the myth, the mid photographer."
+                width={500}
+                height={500}
+                className="mb-auto mt-0"
+              />
+              <span className="absolute bottom-0 left-0 right-0 h-[400px] bg-gradient-to-b from-neutral-900/0 via-neutral-900/90 to-neutral-900"></span>
             </div>
-            <Logo />
-            <h1 className="mb-4 mt-8 text-base font-bold uppercase tracking-widest">LFG</h1>
-            <p className="max-w-[40ch] text-white/75 sm:max-w-[32ch]">Byron M Ps</p>
-            <div className="z-10 flex cursor-pointer gap-2">
-              <button
-                onClick={() => setFilter("ALL")}
-                className="cursor-pointer rounded-3xl bg-purple-700 px-3 py-1 text-xs font-semibold uppercase text-white hover:bg-purple-400 active:bg-purple-800"
-              >
-                All
-              </button>
-              <button
-                onClick={() => setFilter("URBAN")}
-                className="rounded-3xl bg-purple-700 px-3 py-1 text-xs font-semibold uppercase text-white active:bg-purple-800"
-              >
-                Urban
-              </button>
-              <button
-                onClick={() => setFilter("NATURAL")}
-                className="rounded-3xl bg-purple-700 px-3 py-1 text-xs font-semibold uppercase text-white active:bg-purple-800"
-              >
-                Natural
-              </button>
-            </div>
+            <h1 className="z-10 mt-8 text-base font-bold uppercase tracking-widest">Byron Jaris</h1>
+            <p className="z-10 mb-3 max-w-[40ch] text-sm font-semibold text-white/40 sm:max-w-[32ch]">Creator. Designer. Developer.</p>
+            <p className="z-10 max-w-[40ch] text-sm leading-5 text-white/75 sm:max-w-[32ch]">
+              The realest of the real. The man, the myth, the mid photographer. He who shall not be named, the mfer.
+            </p>
           </div>
+
           {filteredPhotos.map(({ id, key, url, blurredUrl }) => (
             <motion.div key={id} layout transition={{ duration: 0.3 }}>
               <Link
@@ -120,6 +132,7 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
                   blurDataURL={blurredUrl}
                   width={720}
                   height={480}
+                  priority={id > 5 ? true : false}
                   sizes="(max-width: 640px) 100vw,
                   (max-width: 1280px) 50vw,
                   (max-width: 1536px) 33vw,
@@ -148,7 +161,7 @@ export async function getStaticProps() {
       id: i,
       key: result.key,
       url: result.url,
-      blurredUrl: result.url,
+      blurredUrl: result.blurredUrl,
       group: result.group,
       ar: result.ar,
       height: result.height,

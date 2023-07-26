@@ -42,13 +42,15 @@ export default function SharedModal({ index, images, changePhotoId, closeModal, 
             <AnimatePresence initial={false} custom={direction}>
               <motion.div key={index} custom={direction} variants={variants} initial="enter" animate="center" exit="exit" className="absolute">
                 <Image
+                  placeholder="blur"
+                  blurDataURL={currentImage?.blurredUrl}
                   src={currentImage?.url}
                   width={navigation ? 1280 : 1920}
                   height={navigation ? 853 : 1280}
                   priority
                   alt=""
                   onLoadingComplete={() => setLoaded(true)}
-                  className={`${currentImage?.height > currentImage?.width ? "opacity-90 aspect-[2/3] h-[70%] w-auto" : ""}`}
+                  className={`rounded-2xl ${currentImage?.height > currentImage?.width ? "aspect-[2/3] h-[70%] w-auto opacity-90" : ""}`}
                 />
               </motion.div>
             </AnimatePresence>
@@ -129,13 +131,15 @@ export default function SharedModal({ index, images, changePhotoId, closeModal, 
                       } relative inline-block w-full shrink-0 transform-gpu overflow-hidden focus:outline-none`}
                     >
                       <Image
+                        placeholder="blur"
+                        blurDataURL={currentImage?.blurredUrl}
+                        src={url}
                         alt="small photos on the bottom"
                         width={180}
                         height={120}
                         className={`${
                           id === index ? "brightness-110 hover:brightness-110" : "brightness-50 contrast-125 hover:brightness-75"
                         } h-full transform object-cover transition`}
-                        src={url}
                       />
                     </motion.button>
                   ))}
