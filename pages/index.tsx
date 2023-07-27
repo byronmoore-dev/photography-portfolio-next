@@ -68,82 +68,88 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
             }}
           />
         )}
-        <div className="z-10 mb-4 flex cursor-pointer gap-2">
-          <button
-            onClick={() => setFilter("ALL")}
-            className={`rounded-lg bg-purple-900 px-5 py-3 text-sm font-semibold uppercase text-white duration-200  ${
-              filter === "ALL" ? "cursor-default bg-purple-900/40" : "cursor-pointer hover:scale-[104%] active:brightness-75"
-            }`}
-          >
-            All
-          </button>
-          <button
-            onClick={() => setFilter("URBAN")}
-            className={`rounded-lg bg-purple-900 px-5 py-3 text-sm font-semibold uppercase text-white duration-200  ${
-              filter === "URBAN" ? "cursor-default bg-purple-900/40" : "cursor-pointer hover:scale-[104%] active:brightness-75"
-            }`}
-          >
-            Urban
-          </button>
-          <button
-            onClick={() => setFilter("NATURAL")}
-            className={`rounded-lg bg-purple-900 px-5 py-3 text-sm font-semibold uppercase text-white duration-200  ${
-              filter === "NATURAL" ? "cursor-default bg-purple-900/40" : "cursor-pointer hover:scale-[104%] active:brightness-75"
-            }`}
-          >
-            Natural
-          </button>
-        </div>
         <motion.div className="columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4">
-          <div className="after:content relative mb-5 flex h-[629px] flex-col items-center justify-end overflow-hidden rounded-lg bg-neutral-800 bg-white/10 px-6 pb-12 text-center text-white shadow-highlight after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0">
+          <div className="after:content group relative mb-5 flex h-[550px] flex-col items-center justify-end overflow-hidden rounded-lg bg-neutral-800 bg-white/10 px-6 text-center text-white shadow-highlight after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0">
             <div className="absolute inset-0 z-0 flex items-center justify-center opacity-70">
               <Image
                 src={"https://s3.us-east-2.amazonaws.com/byronmoore.dev-photo-portfolio/misc/byron-photo.jpg"}
                 alt="Byron M, the man, the myth, the mid photographer."
                 width={500}
                 height={500}
-                className="mb-auto mt-0"
+                className="mb-auto mt-0 duration-500 ease-in-out group-hover:scale-110"
               />
-              <span className="absolute bottom-0 left-0 right-0 h-[400px] bg-gradient-to-b from-neutral-900/0 via-neutral-900/90 to-neutral-900"></span>
+              <span className="absolute bottom-0 left-0 right-0 h-3/4 w-full bg-gradient-to-b from-neutral-900/0 via-neutral-900 to-neutral-900" />
             </div>
-            <h1 className="z-10 mt-8 text-base font-bold uppercase tracking-widest">Byron Jaris</h1>
-            <p className="z-10 mb-3 max-w-[40ch] text-sm font-semibold text-white/40 sm:max-w-[32ch]">Creator. Designer. Developer.</p>
+            <h1 className="z-10 mt-8 text-lg font-bold uppercase tracking-widest">Byron Jaris</h1>
+            <p className="z-10 mb-3 max-w-[40ch] text-sm font-medium text-white/30 sm:max-w-[32ch]">Creator. Developer. Photographer.</p>
             <p className="z-10 max-w-[40ch] text-sm leading-5 text-white/75 sm:max-w-[32ch]">
               The realest of the real. The man, the myth, the mid photographer. He who shall not be named, the mfer.
             </p>
+
+            <div className="z-10 mb-4 mt-8 flex cursor-pointer gap-2">
+              <button
+                onClick={() => setFilter("ALL")}
+                className={`rounded-lg bg-neutral-900 px-3 py-1 text-[10px] font-semibold uppercase text-white duration-200  ${
+                  filter === "ALL" ? "cursor-default bg-purple-900/40" : "cursor-pointer hover:scale-[102%] active:brightness-75"
+                }`}
+              >
+                All
+              </button>
+              <button
+                onClick={() => setFilter("URBAN")}
+                className={`rounded-lg bg-neutral-900 px-3 py-1 text-[10px] font-semibold uppercase text-white duration-200  ${
+                  filter === "URBAN" ? "cursor-default bg-purple-900/40" : "cursor-pointer hover:scale-[102%] active:brightness-75"
+                }`}
+              >
+                Urban
+              </button>
+              <button
+                onClick={() => setFilter("NATURAL")}
+                className={`rounded-lg bg-neutral-900 px-3 py-1 text-[10px] font-semibold uppercase text-white duration-200  ${
+                  filter === "NATURAL" ? "cursor-default bg-purple-900/40" : "cursor-pointer hover:scale-[102%] active:brightness-75"
+                }`}
+              >
+                Natural
+              </button>
+            </div>
           </div>
 
           {filteredPhotos.map(({ id, key, url, blurredUrl }) => (
-            <motion.div key={id} layout transition={{ duration: 0.3 }}>
-              <Link
-                key={id}
-                href={`/?photoId=${key}`}
-                as={`/p/${key}`}
-                ref={id === Number(lastViewedPhoto) ? lastViewedPhotoRef : null}
-                shallow
-                className="after:content group relative mb-5 block w-full cursor-zoom-in after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight"
+            <motion.div layout className="overflow-hidden rounded-lg" key={id} transition={{ duration: 0.3 }}>
+              <motion.div
+                whileHover={{ scale: 1.015 }} // Apply the scale animation on hover
               >
-                <Image
-                  alt=""
-                  className="min-h-[100px] min-w-[200px] transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-110"
-                  style={{ transform: "translate3d(0, 0, 0)" }}
-                  src={"" + url}
-                  placeholder="blur"
-                  blurDataURL={blurredUrl}
-                  width={720}
-                  height={480}
-                  priority={id > 5 ? true : false}
-                  sizes="(max-width: 640px) 100vw,
+                <Link
+                  href={`/?photoId=${key}`}
+                  as={`/p/${key}`}
+                  ref={id === Number(lastViewedPhoto) ? lastViewedPhotoRef : null}
+                  shallow
+                  className="after:content group relative mb-5 block w-full cursor-zoom-in after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight"
+                >
+                  <Image
+                    alt=""
+                    className="min-h-[100px] min-w-[200px] transform rounded-lg brightness-90 transition duration-200 ease-in-out will-change-auto hover:brightness-75 group-hover:scale-110"
+                    style={{ transform: "translate3d(0, 0, 0)" }}
+                    src={"" + url}
+                    placeholder="blur"
+                    blurDataURL={blurredUrl}
+                    width={720}
+                    height={480}
+                    priority={id > 5 ? true : false}
+                    sizes="(max-width: 640px) 100vw,
                   (max-width: 1280px) 50vw,
                   (max-width: 1536px) 33vw,
                   25vw"
-                />
-              </Link>
+                  />
+                </Link>
+              </motion.div>
             </motion.div>
           ))}
         </motion.div>
       </main>
-      <footer className="p-6 text-center text-white/80 sm:p-12">Thank you to Byron</footer>
+      <footer className="flex items-center justify-center py-8">
+        <p className="text-center text-sm font-medium text-white/80">Copyright 2023</p>
+      </footer>
     </>
   );
 };
