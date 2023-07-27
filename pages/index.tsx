@@ -13,6 +13,7 @@ import AWS from "aws-sdk";
 import { useImages } from "../components/usePhotos";
 import { getAllImages } from "../utils/getImages";
 import { motion } from "framer-motion";
+import Script from "next/script";
 
 AWS.config.update({
   accessKeyId: process.env.NEXT_AWS_ACCESS_KEY,
@@ -57,9 +58,27 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
     <>
       <Head>
         <title>Byron Jaris Photography</title>
-        <meta property="og:image" content="https://s3.us-east-2.amazonaws.com/byronmoore.dev-photography-portfolio/natural-3.jpg" />
-        <meta name="twitter:image" content="https://s3.us-east-2.amazonaws.com/byronmoore.dev-photography-portfolio/natural-3.jpg" />
+        <meta property="og:image" content="https://s3.us-east-2.amazonaws.com/byronmoore.dev-photo-portfolio/natural-3.jpg" />
+        <meta name="twitter:image" content="https://s3.us-east-2.amazonaws.com/byronmoore.dev-photo-portfolio/natural-3.jpg" />
+
+        {/*<!-- Google tag (gtag.js) -->*/}
+        <Script strategy="afterInteractive" async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_GA_ID}`}></Script>
+        <Script
+          id="gtag-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${process.env.NEXT_GA_ID}', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        ></Script>
       </Head>
+
       <main className="mx-auto max-w-[1960px] p-4">
         {photoId && (
           <Modal

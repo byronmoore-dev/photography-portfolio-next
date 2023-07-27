@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Carousel from "../../components/Carousel";
 import type { ImageProps } from "../../utils/types";
 import { getAllImages } from "../../utils/getImages";
+import Script from "next/script";
 
 const Home: NextPage = ({ currentPhoto }: { currentPhoto: ImageProps }) => {
   const router = useRouter();
@@ -16,6 +17,23 @@ const Home: NextPage = ({ currentPhoto }: { currentPhoto: ImageProps }) => {
         <title>Byron Jaris Photography</title>
         <meta property="og:image" content={currentPhoto?.url} />
         <meta name="twitter:image" content={currentPhoto?.url} />
+
+        {/*<!-- Google tag (gtag.js) -->*/}
+        <Script strategy="afterInteractive" async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_GA_ID}`}></Script>
+        <Script
+          id="gtag-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${process.env.NEXT_GA_ID}', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        ></Script>
       </Head>
       <main className="mx-auto max-w-[1960px] p-4">
         <Carousel currentPhoto={currentPhoto} index={index} />
