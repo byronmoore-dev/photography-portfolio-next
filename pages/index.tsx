@@ -51,7 +51,6 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
       setFilteredPhotos(photos.filter((photo) => photo.group === filter.toLowerCase()));
     }
   }, [filter]);
-  console.log(`${process.env.NEXT_GA_ID}`);
 
   if (!photos || !filteredPhotos) return null;
 
@@ -64,7 +63,7 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
       </Head>
 
       {/*<!-- Google tag (gtag.js) -->*/}
-      <Script strategy="afterInteractive" async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_GA_ID}`}></Script>
+      <Script strategy="afterInteractive" async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}></Script>
       <Script
         id="gtag-init"
         strategy="afterInteractive"
@@ -73,7 +72,7 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', '${process.env.NEXT_GA_ID}', {
+              gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
                 page_path: window.location.pathname,
               });
             `,
