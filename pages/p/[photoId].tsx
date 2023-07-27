@@ -34,7 +34,7 @@ const Home: NextPage = ({ currentPhoto }: { currentPhoto: ImageProps }) => {
               });
             `,
         }}
-      />
+      ></Script>
       <main className="mx-auto max-w-[1960px] p-4">
         <Carousel currentPhoto={currentPhoto} index={index} />
       </main>

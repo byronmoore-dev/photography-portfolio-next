@@ -79,7 +79,7 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
               });
             `,
         }}
-      />
+      ></Script>
 
       <main className="mx-auto max-w-[1960px] p-4">
         {photoId && (
