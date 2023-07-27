@@ -54,6 +54,8 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
 
   if (!photos || !filteredPhotos) return null;
 
+  console.log("ID: " + process.env.NEXT_PUBLIC_GA_ID);
+
   return (
     <>
       <Head>
