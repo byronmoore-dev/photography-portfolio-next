@@ -51,6 +51,7 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
       setFilteredPhotos(photos.filter((photo) => photo.group === filter.toLowerCase()));
     }
   }, [filter]);
+  console.log(`${process.env.NEXT_GA_ID}`);
 
   if (!photos || !filteredPhotos) return null;
 
@@ -60,14 +61,15 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
         <title>Byron Jaris Photography</title>
         <meta property="og:image" content="https://s3.us-east-2.amazonaws.com/byronmoore.dev-photo-portfolio/natural-3.jpg" />
         <meta name="twitter:image" content="https://s3.us-east-2.amazonaws.com/byronmoore.dev-photo-portfolio/natural-3.jpg" />
+      </Head>
 
-        {/*<!-- Google tag (gtag.js) -->*/}
-        <Script strategy="afterInteractive" async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_GA_ID}`}></Script>
-        <Script
-          id="gtag-init"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
+      {/*<!-- Google tag (gtag.js) -->*/}
+      <Script strategy="afterInteractive" async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_GA_ID}`}></Script>
+      <Script
+        id="gtag-init"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
@@ -75,9 +77,8 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
                 page_path: window.location.pathname,
               });
             `,
-          }}
-        ></Script>
-      </Head>
+        }}
+      />
 
       <main className="mx-auto max-w-[1960px] p-4">
         {photoId && (
@@ -105,7 +106,7 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
             <h1 className="z-10 mt-8 text-lg font-bold uppercase tracking-widest">Byron Jaris</h1>
             <p className="z-10 mb-3 max-w-[40ch] text-sm font-medium text-white/30 sm:max-w-[32ch]">Creator. Developer. Photographer.</p>
             <p className="z-10 max-w-[40ch] text-sm leading-5 text-white/75 sm:max-w-[32ch]">
-              The realest of the real. The man, the myth, the mid photographer. He who shall not be named, the mfer.
+              The realest of the real. The man, the myth, the mid photographer. He who shall not be named, the mfer...
             </p>
 
             <div className="z-10 mb-4 mt-8 flex cursor-pointer gap-2">

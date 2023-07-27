@@ -17,14 +17,15 @@ const Home: NextPage = ({ currentPhoto }: { currentPhoto: ImageProps }) => {
         <title>Byron Jaris Photography</title>
         <meta property="og:image" content={currentPhoto?.url} />
         <meta name="twitter:image" content={currentPhoto?.url} />
+      </Head>
 
-        {/*<!-- Google tag (gtag.js) -->*/}
-        <Script strategy="afterInteractive" async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_GA_ID}`}></Script>
-        <Script
-          id="gtag-init"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
+      {/*<!-- Google tag (gtag.js) -->*/}
+      <Script strategy="afterInteractive" async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_GA_ID}`}></Script>
+      <Script
+        id="gtag-init"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
@@ -32,9 +33,8 @@ const Home: NextPage = ({ currentPhoto }: { currentPhoto: ImageProps }) => {
                 page_path: window.location.pathname,
               });
             `,
-          }}
-        ></Script>
-      </Head>
+        }}
+      />
       <main className="mx-auto max-w-[1960px] p-4">
         <Carousel currentPhoto={currentPhoto} index={index} />
       </main>
