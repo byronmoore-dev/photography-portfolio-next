@@ -5,7 +5,11 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <meta name="description" content="Photography Portfolio by Byron J Moore." />
+          <title>Byron Jaris Photography</title>
+          <meta
+            name="description"
+            content="Step into Byron's captivating universe, where every snapshot is a masterpiece. In his photography portfolio, everyday moments transform into timeless art, resonating with profound beauty. Discover the majesty of Byron's vision, where artistry and reality converge."
+          />
 
           <meta property="og:title" content="Photography Portfolio | Byron Moore" />
           <meta property="og:description" content="Photograph taken by Byron J Moore." />
