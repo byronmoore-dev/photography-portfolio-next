@@ -9,11 +9,12 @@ class MyDocument extends Document {
 
           <meta property="og:title" content="Photography Portfolio | Byron Moore" />
           <meta property="og:description" content="Photograph taken by Byron J Moore." />
+          <meta property="og:image" content="https://s3.us-east-2.amazonaws.com/byronmoore.dev-photo-portfolio/images/natural-3.jpg" />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Photography taken by Byron M" />
           <meta name="twitter:description" content="Photographs by Byron" />
-          <meta name="twitter:image" content="https://s3.us-east-2.amazonaws.com/byronmoore.dev-photo-portfolio/natural-3.jpg" />
+          <meta name="twitter:image" content="https://s3.us-east-2.amazonaws.com/byronmoore.dev-photo-portfolio/images/natural-3.jpg" />
 
           <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
           <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
