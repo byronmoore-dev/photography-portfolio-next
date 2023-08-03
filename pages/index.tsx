@@ -60,8 +60,6 @@ const Home: NextPage = ({ staticImages }: { staticImages: ImageProps[] }) => {
     <>
       <Head>
         <title>Byron Jaris Photography</title>
-        <meta property="og:image" content="https://s3.us-east-2.amazonaws.com/byronmoore.dev-photo-portfolio/natural-3.jpg" />
-        <meta name="twitter:image" content="https://s3.us-east-2.amazonaws.com/byronmoore.dev-photo-portfolio/natural-3.jpg" />
       </Head>
 
       {/*<!-- Google tag (gtag.js) -->*/}

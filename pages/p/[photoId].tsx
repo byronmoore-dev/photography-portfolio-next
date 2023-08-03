@@ -10,12 +10,16 @@ const Home: NextPage = ({ currentPhoto }: { currentPhoto: ImageProps }) => {
   const router = useRouter();
   const { photoId } = router.query;
   let index = Number(photoId);
+  let pGroup = currentPhoto?.group.charAt(0).toUpperCase() + currentPhoto?.group.slice(1).toLowerCase();
 
   return (
     <>
       <Head>
         <title>Byron Jaris Photography</title>
         <meta property="og:image" content={currentPhoto?.url} />
+        <meta property="og:title" content="Photography Portfolio | Byron Moore" />
+        <meta property="og:description" content={`${pGroup} photograph taken by Byron J Moore.`} />
+
         <meta name="twitter:image" content={currentPhoto?.url} />
       </Head>
 
