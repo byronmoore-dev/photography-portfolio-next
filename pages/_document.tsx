@@ -9,8 +9,6 @@ class MyDocument extends Document {
 
           <meta property="og:title" content="Photography Portfolio | Byron Moore" />
           <meta property="og:description" content="Photograph taken by Byron J Moore." />
-          <meta property="og:site_name" content="photography.byronjaris.com" />
-          <meta property="og:image" content="https://s3.us-east-2.amazonaws.com/byronmoore.dev-photo-portfolio/natural-3.jpg" />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Photography taken by Byron M" />
